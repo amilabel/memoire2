@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head> 
+    <form   method="POST" action="function.php" >
+    <meta charset="utf-8">
+    <title>Upload  Image</title>
+   <script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js">
+    </script>
+  
+  </head>
+ 
+  <body>
+    
+
+    <form enctype="multipart/form-data" action="" method="post">
+      <input type="file" name="fileImg[]" id="fileImg" multiple onchange="preview();">
+      <button type="button" onclick="submitData();"><a href="#"></a>Submit</button>
+      
+    </form>
+    <p>Preview</p>
+    <div id = "preview">
+
+    </div>
+
+    <script type="text/javascript">
+      function preview(){
+        var totalFiles = $('#fileImg').get(0).files.length;
+        for(var i = 0; i < totalFiles; i++){
+          $('#preview').append("<img src = '"+URL.createObjectURL(event.target.files[i])+"'>");
+        }
+      }
+
+      function submitData(){
+        $(document).ready(function(){
+          var formData = new FormData();
+
+          var totalFiles = $("#fileImg").get(0).files.length;
+          for (var i = 0; i < totalFiles; i++) {
+              formData.append("fileImg[]", $("#fileImg").get(0).files[i]);
+          }
+
+          $.ajax({
+            url: 'function.php',
+            type: 'post',
+            data: formData,
+            contentType: false,
+            processData: false,
+            success:function(response){
+              alert(response);    
+            }
+          });
+        });
+      }
+    </script> 
+</html>
